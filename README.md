@@ -2,7 +2,7 @@
 
 GeoExplorer is an interactive map-based full-stack application that allows users to explore various map layers including standard base maps, topographic data, and real-time weather information. The application demonstrates integration with multiple geospatial data services including OpenStreetMap, USGS, NASA GIBS, and OpenWeatherMap.
 
-![GeoExplorer Screenshot](screenshot.png)
+![GeoExplorer Screenshot](https://i.ibb.co/fY0sWf0v/Screenshot-2025-03-07-at-11-48-51-PM.png)
 
 ## Features
 
