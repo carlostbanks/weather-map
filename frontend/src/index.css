@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add any custom styles here */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Import Leaflet CSS if not already done */
+@import '~leaflet/dist/leaflet.css';
