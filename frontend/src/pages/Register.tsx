@@ -1,4 +1,3 @@
-// src/pages/Register.tsx
 import React, { useState } from 'react';
 import AuthForm from '../components/AuthForm';
 import { register } from '../services/auth';
@@ -20,7 +19,6 @@ const Register: React.FC = () => {
       });
       
       console.log('Registration successful, redirecting to login...');
-      // Replace React Router navigation with direct browser navigation
       setTimeout(() => {
         window.location.href = '/login';
       }, 500);

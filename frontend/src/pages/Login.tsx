@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import React, { useState } from 'react';
 import AuthForm from '../components/AuthForm';
 import { login } from '../services/auth';
@@ -9,7 +8,6 @@ const Login: React.FC = () => {
   const handleLogin = async (data: { username: string; password: string }) => {
     try {
       await login(data);
-      // Replace React Router navigation with direct browser navigation
       window.location.href = '/dashboard';
     } catch (err) {
       setError('Invalid username or password. Please try again.');

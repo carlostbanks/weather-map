@@ -1,4 +1,3 @@
-// src/services/api.ts
 import axios from 'axios';
 import { getToken } from '../utils/token';
 
@@ -11,7 +10,6 @@ const api = axios.create({
   },
 });
 
-// Add token to requests
 api.interceptors.request.use(
   (config) => {
     const token = getToken();

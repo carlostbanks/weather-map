@@ -1,4 +1,3 @@
-// src/pages/Home.tsx
 import React, { useEffect, useState } from 'react';
 import { GeoLayer } from '../types';
 import { getLayers } from '../services/map';
@@ -13,11 +12,9 @@ const Home: React.FC = () => {
     const fetchLayers = async () => {
       try {
         const layers = await getLayers();
-        // Get all available layers
         setFeaturedLayers(layers);
       } catch (error) {
         console.error('Error fetching layers:', error);
-        // Provide default layer if API fails
         setFeaturedLayers([{
           id: 999,
           name: 'OpenStreetMap',
@@ -35,13 +32,13 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-<Header 
-  user={isAuthenticated() ? { id: 1, username: "DemoUser", email: "demo@example.com" } : null} 
-  onLogout={() => {
-    localStorage.removeItem('geoexplorer_token');
-    window.location.href = '/login';
-  }} 
-/>    
+    <Header 
+      user={isAuthenticated() ? { id: 1, username: "DemoUser", email: "demo@example.com" } : null} 
+      onLogout={() => {
+        localStorage.removeItem('geoexplorer_token');
+        window.location.href = '/login';
+      }} 
+    />    
       <div className="bg-blue-700 text-white py-10">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold mb-4">Welcome to GeoExplorer</h1>

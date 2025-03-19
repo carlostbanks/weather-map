@@ -1,4 +1,3 @@
-// src/services/map.ts
 import api from './api';
 import { GeoLayer, UserLayer } from '../types';
 
@@ -9,7 +8,6 @@ export const getLayers = async (): Promise<GeoLayer[]> => {
   } catch (error) {
     console.error("Failed to get layers:", error);
     
-    // Return default layers if API fails
     return [
       {
         id: 1,
@@ -71,7 +69,6 @@ export const addUserLayer = async (data: {
   } catch (error) {
     console.error("Failed to add layer via API:", error);
     
-    // Mock successful response for demo purposes
     return {
       id: Date.now(),
       success: true,
@@ -92,7 +89,6 @@ export const updateUserLayer = async (
     await api.put(`/maps/user/layers/${id}`, data);
   } catch (error) {
     console.error("Failed to update layer via API:", error);
-    // The function calling this should handle UI updates locally
   }
 };
 
@@ -101,7 +97,6 @@ export const deleteUserLayer = async (id: number): Promise<void> => {
     await api.delete(`/maps/user/layers/${id}`);
   } catch (error) {
     console.error("Failed to delete layer via API:", error);
-    // The function calling this should handle UI updates locally
-    throw error; // Re-throw to allow caller to handle the error
+    throw error;
   }
 };

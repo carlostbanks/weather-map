@@ -1,11 +1,9 @@
-// src/components/Map.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, WMSTileLayer, LayersControl, FeatureGroup, Marker, Popup } from 'react-leaflet';
 import { GeoLayer, UserLayer } from '../types';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Fix marker icons
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
@@ -28,9 +26,8 @@ const Map: React.FC<MapProps> = ({ geoLayers, userLayers, onFeatureCreate }) => 
   const [map, setMap] = useState<L.Map | null>(null);
   const [selectedBaseLayer, setSelectedBaseLayer] = useState<number | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
-  const [mapKey, setMapKey] = useState(Date.now()); // Unique key for map container
+  const [mapKey, setMapKey] = useState(Date.now());
 
-  // Reset map instance when component mounts or key changes
   useEffect(() => {
     return () => {
       if (map) {
@@ -41,10 +38,8 @@ const Map: React.FC<MapProps> = ({ geoLayers, userLayers, onFeatureCreate }) => 
     };
   }, [map, mapKey]);
 
-  // Handle map layers
   useEffect(() => {
     if (geoLayers.length > 0 && selectedBaseLayer === null) {
-      // Set the first XYZ layer as default base layer
       const xyzLayer = geoLayers.find(layer => layer.layer_type === 'XYZ');
       if (xyzLayer) {
         setSelectedBaseLayer(xyzLayer.id);
@@ -52,7 +47,6 @@ const Map: React.FC<MapProps> = ({ geoLayers, userLayers, onFeatureCreate }) => 
     }
   }, [geoLayers, selectedBaseLayer]);
 
-  // Set up map click handler with useEffect
   useEffect(() => {
     if (map && onFeatureCreate) {
       const handleMapClick = (e: L.LeafletMouseEvent) => {
@@ -73,14 +67,12 @@ const Map: React.FC<MapProps> = ({ geoLayers, userLayers, onFeatureCreate }) => 
       
       map.on('click', handleMapClick);
       
-      // Cleanup function to remove event listener
       return () => {
         map.off('click', handleMapClick);
       };
     }
   }, [map, onFeatureCreate]);
 
-  // Render different layer types
   const renderLayer = (layer: GeoLayer) => {
     switch (layer.layer_type) {
       case 'XYZ':
@@ -103,7 +95,6 @@ const Map: React.FC<MapProps> = ({ geoLayers, userLayers, onFeatureCreate }) => 
           />
         );
       case 'WMTS':
-        // For WMTS, we need to transform the URL pattern to match Leaflet's expectations
         const wmtsUrl = layer.url
           .replace('{Time}', layer.params?.time || '')
           .replace('{TileMatrixSet}', layer.params?.tileMatrixSet || '')
@@ -121,7 +112,6 @@ const Map: React.FC<MapProps> = ({ geoLayers, userLayers, onFeatureCreate }) => 
     }
   };
 
-  // If we don't have a valid map ref, don't render the map
   if (!mapRef.current && typeof window !== 'undefined') {
     return <div ref={mapRef} style={{ height: '100%', width: '100%' }}></div>;
   }

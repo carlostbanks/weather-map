@@ -1,4 +1,3 @@
-// src/pages/Dashboard.tsx
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import BasicMap from '../components/BasicMap';
@@ -52,7 +51,6 @@ const Dashboard: React.FC = () => {
         tileMatrixSet: 'GoogleMapsCompatible_Level9'
       }
     },
-    // In Dashboard.tsx, add this to your defaultLayers array
 {
     id: 4,
     name: 'Weather Radar',
@@ -66,7 +64,6 @@ const Dashboard: React.FC = () => {
   ];
 
   useEffect(() => {
-    // Check if user is authenticated
     console.log("Dashboard: Checking authentication");
     console.log("isAuthenticated returns:", isAuthenticated());
     
@@ -80,7 +77,6 @@ const Dashboard: React.FC = () => {
       try {
         console.log("Dashboard: Fetching data from API");
         
-        // Try to get the user profile
         try {
           const profileData = await getProfile();
           console.log("User profile:", profileData);
@@ -95,7 +91,6 @@ const Dashboard: React.FC = () => {
           });
         }
         
-        // Try to get layers from API
         try {
           const layersData = await getLayers();
           console.log("API layers:", layersData);
@@ -109,11 +104,9 @@ const Dashboard: React.FC = () => {
           }
         } catch (error) {
           console.error("Failed to get layers:", error);
-          // Set default layers
           setGeoLayers(defaultLayers);
         }
         
-        // Try to get user layers
         try {
           const userLayersData = await getUserLayers();
           console.log("User layers:", userLayersData);
@@ -133,7 +126,6 @@ const Dashboard: React.FC = () => {
     fetchData();
   }, []);
 
-  // In src/pages/Dashboard.tsx - update handleAddLayer
 const handleAddLayer = async (layerId: number) => {
     console.log("Adding layer with ID:", layerId);
     try {
@@ -153,16 +145,13 @@ const handleAddLayer = async (layerId: number) => {
         });
         console.log("Add layer API response:", result);
         
-        // If API call fails, create a mock user layer
         if (!result || result.error) {
           throw new Error("API returned error");
         }
         
-        // Refresh user layers
         console.log("Refreshing user layers after add");
         const updatedUserLayers = await getUserLayers();
         
-        // If getUserLayers fails, simulate adding the layer locally
         if (!updatedUserLayers || updatedUserLayers.length === 0) {
           console.log("Creating mock user layer");
           const mockUserLayer: UserLayer = {
@@ -180,7 +169,6 @@ const handleAddLayer = async (layerId: number) => {
       } catch (error) {
         console.error("API error:", error);
         
-        // Create a mock user layer when API fails
         console.log("Creating mock user layer after API error");
         const mockUserLayer: UserLayer = {
           id: Date.now(),
@@ -196,7 +184,6 @@ const handleAddLayer = async (layerId: number) => {
     }
   };
 
-  // Updated handleRemoveLayer function for Dashboard.tsx
 const handleRemoveLayer = async (userLayerId: number) => {
     console.log("Removing layer with ID:", userLayerId);
     try {
@@ -207,11 +194,9 @@ const handleRemoveLayer = async (userLayerId: number) => {
         console.error("Failed to remove layer via API, removing locally:", error);
       }
   
-      // Whether the API call succeeds or fails, remove the layer from local state
       console.log("Removing layer from local state");
       setUserLayers(prevLayers => prevLayers.filter(layer => layer.id !== userLayerId));
   
-      // If the active layer was removed, clear the active feature collection
       if (activeUserLayerId === userLayerId) {
         setActiveFeatureCollection(null);
         setActiveUserLayerId(null);
@@ -228,7 +213,6 @@ const handleRemoveLayer = async (userLayerId: number) => {
       await updateUserLayer(userLayerId, { is_favorite: isFavorite });
       console.log("Layer favorite status updated");
 
-      // Update user layers locally
       setUserLayers(prevLayers =>
         prevLayers.map(layer =>
           layer.id === userLayerId ? { ...layer, is_favorite: isFavorite } : layer
@@ -242,7 +226,6 @@ const handleRemoveLayer = async (userLayerId: number) => {
 
   const handleFeatureCreate = async (feature: GeoJSON.Feature) => {
     console.log("Creating feature:", feature);
-    // If no active user layer is selected, ignore
     if (!activeUserLayerId) {
       console.log("No active user layer selected");
       return;
@@ -256,7 +239,6 @@ const handleRemoveLayer = async (userLayerId: number) => {
       }
       console.log("Found active user layer:", userLayer);
   
-      // Initialize or update feature collection
       let featureCollection: GeoJSON.FeatureCollection;
       
       if (userLayer.feature_collection) {
@@ -273,11 +255,9 @@ const handleRemoveLayer = async (userLayerId: number) => {
         console.log("Created new feature collection");
       }
   
-      // Update the layer
       await updateUserLayer(activeUserLayerId, { feature_collection: featureCollection });
       console.log("Feature collection saved to server");
       
-      // Update local state
       setUserLayers(prevLayers =>
         prevLayers.map(layer =>
           layer.id === activeUserLayerId
@@ -316,9 +296,7 @@ const handleRemoveLayer = async (userLayerId: number) => {
       <div className="container mx-auto px-4 py-6">
         <h1 className="text-2xl font-bold mb-6">Interactive Map Dashboard</h1>
         
-        {/* Main content area with map taking more space */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Layer control sidebar */}
           <div className="lg:col-span-1">
             <LayerControl
               geoLayers={geoLayers}
@@ -329,7 +307,6 @@ const handleRemoveLayer = async (userLayerId: number) => {
             />
           </div>
           
-          {/* Map container - increased height */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-lg shadow-md p-4">
               <div style={{ height: '600px' }}>
